@@ -2,8 +2,8 @@
 using System.IO;
 using System.Windows.Forms;
     public class fpv : Form{
-        string ls; int index = 0, error = 0; bool alt = false; string[] files;
-        public static void Main(string[] args){ try{Application.EnableVisualStyles(); Application.Run(new fpv(args[0]));}catch { }}
+        string ls; int index = 0, error = 0; bool alt = false; string[] files=new string[]{};
+        public static void Main(string[] args){ try{Application.EnableVisualStyles(); Application.Run(new fpv(args.Length>0? args[0]:""));}catch { }}
         public void draw(int a){
 					try{if (error < files.Length){
                     this.BackgroundImage = System.Drawing.Image.FromStream(new MemoryStream(File.ReadAllBytes((files[index = ((files.Length + (index + a)) % files.Length)]))));
@@ -29,12 +29,17 @@ using System.Windows.Forms;
                 case Keys.F1: case Keys.H: MessageBox.Show("FPV by kasthack v 0.5.1.\r\nKeys:\r\nD/S/↓/→/Num6/Num2/Space - next photo;\r\nA/W/↑/←/Num8/Num4 - previous photo;\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen;\r\nEsc-Esc/Q - exit FPV;\r\nF1/H - show this message.", "FPV:Help", MessageBoxButtons.OK, MessageBoxIcon.Information); this.Activate(); break;}}
         protected override void Dispose(bool disposing){base.Dispose(disposing);}
         public fpv(string init){
-            ls = Path.GetDirectoryName(init);
-            files = Directory.GetFiles(ls);
-            this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
-            this.MouseDoubleClick += new MouseEventHandler(pctPicture_Click);
-            ClientSize = new System.Drawing.Size(284, 262);
-            KeyUp += new KeyEventHandler(frmview_KeyUp);
-            KeyDown += new System.Windows.Forms.KeyEventHandler(frmview_KeyDown);
+            try
+            {
+                this.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Zoom;
+                this.MouseDoubleClick += new MouseEventHandler(pctPicture_Click);
+				DoubleBuffered=true;
+                ClientSize = new System.Drawing.Size(284, 262);
+                KeyUp += new KeyEventHandler(frmview_KeyUp);
+                KeyDown += new System.Windows.Forms.KeyEventHandler(frmview_KeyDown);
+                ls = Path.GetDirectoryName(init);
+                files = Directory.GetFiles(ls);
+            }
+            catch { frmview_KeyDown(null, new KeyEventArgs(Keys.F1)); }
             try { this.BackgroundImage = System.Drawing.Image.FromStream(new MemoryStream(File.ReadAllBytes(init))); this.Text = Path.GetFileName(init) + " -- kasthack's Fast Photo Viewer"; }
             catch { draw(1); }}}

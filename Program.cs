@@ -10,7 +10,7 @@ public class fpv : Form{
                 this.Text = Path.GetFileName(files[index % files.Count]) + " -- kasthack's Fast Photo Viewer";
                 files.Clear(); files.AddRange(Directory.GetFiles(ls));
             }error = 0;}catch { error++; draw(a==0?1:a); } GC.Collect();}
-    private void pctPicture_Click(object sender, MouseEventArgs e)}
+    private void pctPicture_Click(object sender, MouseEventArgs e){
         bool f = this.WindowState == FormWindowState.Maximized;
         WindowState = f ? FormWindowState.Normal : FormWindowState.Maximized;
         FormBorderStyle = f ? FormBorderStyle.Sizable : FormBorderStyle.None;

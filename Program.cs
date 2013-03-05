@@ -14,7 +14,6 @@ public class fpv : Form{
 		FormBorderStyle = f ? FormBorderStyle.Sizable : FormBorderStyle.None;
 		WindowState = f ? FormWindowState.Normal : FormWindowState.Maximized;
 		BackColor = f ? System.Drawing.Color.White : System.Drawing.Color.Black;}
-	public void frmview_KeyUp(object sender, KeyEventArgs e) { if ( ( e.KeyCode == Keys.A ) || ( e.KeyCode == ( Keys.RButton | Keys.ShiftKey ) ) ) alt = false; }
 	private void frmview_KeyDown(object sender, KeyEventArgs e) {
 		switch ( e.KeyCode ) {
 			case Keys.Enter:if ( !alt ) draw(1);  else fullscreen_change(null, null);break;
@@ -23,15 +22,17 @@ public class fpv : Form{
 			case Keys.Left: case Keys.A: case Keys.Up: case Keys.W: case Keys.PageUp: case Keys.NumPad8: case Keys.NumPad4:draw(-1);break;
 			case Keys.Q:Application.Exit();break;
 			case Keys.F11:fullscreen_change(null, null); break;
-			case Keys.Delete: if ( MessageBox.Show("Do U really want to delete" + files[index] + "?", "Deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes )try { File.Delete(files[index]); draw(0); }catch { }this.Activate();break;
+            case Keys.Home:case Keys.B: draw(-index); break;
+            case Keys.End:case Keys.E: draw(-index-1); break;
+            case Keys.Delete: if ( MessageBox.Show("Do U really want to delete" + files[index] + "?", "Deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes ) try { File.Delete(files[index]); draw(0); }catch { } this.Activate(); break;
 			case Keys.Escape:if ( this.WindowState == FormWindowState.Maximized ) fullscreen_change(null, null);else Application.Exit();break;
-			case Keys.F1: case Keys.H:MessageBox.Show("FPV by kasthack v 0.7.2.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen/app;\r\nEsc-Esc/Q - exit FPV;\r\nF1/H - show this message.", "FPV:Help", MessageBoxButtons.OK, MessageBoxIcon.Information);this.Activate();break;}}
+			case Keys.F1: case Keys.H:MessageBox.Show("FPV by kasthack v 0.8.0.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nHome/B - first pic in folder\r\nEnd/E - last pic\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen/app;\r\nEsc-Esc/Q - exit FPV;\r\nF1/H - show this message.", "FPV:Help", MessageBoxButtons.OK, MessageBoxIcon.Information);this.Activate();break;}}
 	public fpv(string init) {try {
 			this.Controls.Add(p = new PictureBox() { Dock = DockStyle.Fill, SizeMode = PictureBoxSizeMode.Zoom, BorderStyle = BorderStyle.None });
 			p.MouseDoubleClick += new MouseEventHandler(fullscreen_change);
-			KeyUp += new KeyEventHandler(frmview_KeyUp);
+            KeyUp += new KeyEventHandler(delegate( object sender, KeyEventArgs e ) { if ( ( e.KeyCode == Keys.A ) || ( e.KeyCode == ( Keys.RButton | Keys.ShiftKey ) ) ) alt = false; });
 			KeyDown += new System.Windows.Forms.KeyEventHandler(frmview_KeyDown);
-			MouseWheel += new MouseEventHandler(delegate(Object o, MouseEventArgs a) {draw(a.Delta/120); });
+			MouseWheel += new MouseEventHandler(delegate(Object o, MouseEventArgs a) {draw(a.Delta>0?-1:1); });
 			ClientSize = new System.Drawing.Size(320, 220);
 			ls = Path.GetDirectoryName(init);
 			files.Clear(); files.AddRange(Directory.GetFiles(ls));}

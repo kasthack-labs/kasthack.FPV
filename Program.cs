@@ -7,7 +7,7 @@ public class fpv : Form{
 				files.Clear();files.AddRange(Directory.GetFiles(ls));
 				index = ( ( files.Count + ( index + a ) ) % files.Count );
 				p.LoadAsync(files[index]);
-				this.Text = Path.GetFileName(files[index]) + " � kasthack's Fast Photo Viewer";
+				this.Text = Path.GetFileName(files[index]) + " — kasthack's Fast Photo Viewer";
 			}error = 0;}catch { error++; draw(a == 0 ? 1 : a); }GC.Collect();}
 	private void fullscreen_change(object sender, MouseEventArgs e) {
 		bool f = this.WindowState == FormWindowState.Maximized;
@@ -22,11 +22,11 @@ public class fpv : Form{
 			case Keys.Left: case Keys.A: case Keys.Up: case Keys.W: case Keys.PageUp: case Keys.NumPad8: case Keys.NumPad4:draw(-1);break;
 			case Keys.Q:Application.Exit();break;
 			case Keys.F11:fullscreen_change(null, null); break;
-            case Keys.Home:case Keys.B: draw(-index); break;
-            case Keys.End:case Keys.E: draw(-index-1); break;
+            case Keys.Home:case Keys.B: index=0; draw(0); break;
+            case Keys.End:case Keys.E: index=0; draw(-1); break;
             case Keys.Delete: if ( MessageBox.Show("Do U really want to delete" + files[index] + "?", "Deleting", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button1) == DialogResult.Yes ) try { File.Delete(files[index]); draw(0); }catch { } this.Activate(); break;
 			case Keys.Escape:if ( this.WindowState == FormWindowState.Maximized ) fullscreen_change(null, null);else Application.Exit();break;
-			case Keys.F1: case Keys.H:MessageBox.Show("FPV by kasthack v 0.8.0.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nHome/B - first pic in folder\r\nEnd/E - last pic\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen/app;\r\nEsc-Esc/Q - exit FPV;\r\nF1/H - show this message.", "FPV:Help", MessageBoxButtons.OK, MessageBoxIcon.Information);this.Activate();break;}}
+			case Keys.F1: case Keys.H:MessageBox.Show("FPV by kasthack v 0.8.1.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nHome/B - first pic in folder\r\nEnd/E - last pic\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen/app;\r\nEsc-Esc/Q - exit FPV;\r\nF1/H - show this message.", "FPV:Help", MessageBoxButtons.OK, MessageBoxIcon.Information);this.Activate();break;}}
 	public fpv(string init) {try {
 			this.Controls.Add(p = new PictureBox() { Dock = DockStyle.Fill, SizeMode = PictureBoxSizeMode.Zoom, BorderStyle = BorderStyle.None });
 			p.MouseDoubleClick += new MouseEventHandler(fullscreen_change);

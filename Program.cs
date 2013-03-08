@@ -30,10 +30,10 @@ public class fpv : Form{
 			case Keys.F1: case Keys.Divide:MessageBox.Show("FPV by kasthack v 0.8.1.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nHome/H - first pic in folder\r\nEnd/E - last pic\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen;\r\nEsc-Esc/Q - exit FPV;\r\nF1/? - show this message.", "FPV:Help", MessageBoxButtons.OK, MessageBoxIcon.Information);this.Activate();break;}}
 	public fpv(string a) {try {
 			this.Controls.Add(P = new PictureBox() { Dock = DockStyle.Fill, SizeMode = PictureBoxSizeMode.Zoom, BorderStyle = BorderStyle.None });
-			P.MouseDoubleClick += new MouseEventHandler(f);
-            KeyUp += new KeyEventHandler(delegate( object _, KeyEventArgs e ) { if ( ( e.KeyCode == Keys.A ) || ( e.KeyCode == ( Keys.RButton | Keys.ShiftKey ) ) ) A = false; });
-			KeyDown += new KeyEventHandler(p);
-			MouseWheel += new MouseEventHandler(delegate(Object _, MouseEventArgs e) {r(e.Delta>0?-1:1); });
+			P.MouseDoubleClick += f;
+            KeyUp += (_, e) => { if ( ( e.KeyCode == Keys.A ) || ( e.KeyCode == ( Keys.RButton | Keys.ShiftKey ) ) ) A = false; };
+			KeyDown += p;
+			MouseWheel += (_, e) => {r(e.Delta>0?-1:1); };
 			ClientSize = new Size(320, 220);
 			D = Path.GetDirectoryName(a);
 			L.Clear(); L.AddRange(Directory.GetFiles(D));}

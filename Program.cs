@@ -20,8 +20,8 @@ public class fpv : Form{
             case 37: case 65: case 38: case 87: case 33: case 104: case 100:              r(-1);break;
             case 81:                                                         Application.Exit();break;
             case 122:                                                            f(null, null); break;
-            case 36:case 72:                                                         I=0; r(0); break;
-            case 35:case 69:                                                        I=0; r(-1); break;
+            case 36:case 72:                                                            r(I=0); break;
+            case 35:case 69:                                                        r((I=0)-1); break;
             case 82:                                                               r(R.Next()); break;
             case 46: if ( ((int)MessageBox.Show("Do U really want to delete" + L[I] + "?", "Deleting", (MessageBoxButtons)4, (MessageBoxIcon)32)) == 6 ) try { File.Delete(L[I]); r(0); }catch { } this.Activate(); break;
             case 27:if ( (int)this.WindowState == 2 ) f(null, null);else Application.Exit();break;

@@ -1,38 +1,26 @@
-using System;using System.Linq;using System.IO;using System.Windows.Forms;using System.Drawing;using System.Collections.Generic;
+using System;using System.IO;using System.Linq;using System.Windows.Forms;using System.Drawing;using System.Collections.Generic;using Z = System.Action;
 class fpv:Form{
-string D;int I=0,E=0;bool A=false;PictureBox P;Random R=new Random();List<string>L=new List<string>();
-public static void Main(string[] a){try{Application.Run(new fpv(a.Length>0?a[0]:""));}catch{}}
-void r(int o){try{if(E<L.Count){
-P.LoadAsync((L=Directory.GetFiles(D).ToList())[I=((L.Count+(I+o))% L.Count)]);
-this.Text=Path.GetFileName(L[I])+" — kasthack's Fast Photo Viewer";
-}E=0;}catch {E++;r(o==0?1:o);}GC.Collect();}
-void f(object _,MouseEventArgs e){
-bool m=((int)this.WindowState==2);
-FormBorderStyle=(FormBorderStyle)(m?4:0);
-WindowState=(FormWindowState)(m?0:2);
-BackColor=m?Color.White:Color.Black;}
-Func<string,string,int,int,int> m=(a,b,c,d)=>(int)MessageBox.Show(a,b,(MessageBoxButtons)c,(MessageBoxIcon)d);
-void p(object _,KeyEventArgs a){
-switch ((int)a.KeyCode){
-case 13:if(!A)r(1);else f(null,null);break;
-case 262144:case 18:case 17:A=true;break;
-case 39:case 68:case 34:case 40:case 102:case 98:case 83:case 32:r(1);break;
-case 37:case 65:case 38:case 87:case 33:case 104:case 100:r(-1);break;
-case 81:Application.Exit();break;
-case 122:f(null,null);break;
-case 36:case 72:r(I=0);break;
-case 35:case 69:r((I=0)-1);break;
-case 82:r(R.Next());break;
-case 46:if(m("Do U really want to delete"+L[I]+"?","Deleting",4,32)==6)try{File.Delete(L[I]);r(0);}catch{}this.Activate();break;
-case 27:if((int)this.WindowState==2)f(null,null);else Application.Exit();break;
-case 112:case 111:m("FPV by kasthack v 0.8.1.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nHome/H - first pic in folder\r\nEnd/E - last pic\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen;\r\nEsc-Esc/Q - exit FPV;\r\nF1/?- show this message.","FPV:Help",0,64);break;}}
-fpv(string a){try{
-this.Controls.Add(P=new PictureBox(){Dock=(DockStyle)5,SizeMode=(PictureBoxSizeMode)4,BorderStyle=0});
-P.MouseDoubleClick+=f;
-KeyUp+=(_,e)=>{var v=(int)e.KeyCode;if(v==65||v==18)A=false;};
-KeyDown+=p;
-MouseWheel+=(_,e)=>{r (e.Delta>0?-1:1);};
+bool A,U;int B,C,T;string D;Random E=new Random();PictureBox F;List<string> G;Dictionary<int,Z> H;
+static void Main(string[] a){try{Application.Run(new fpv(a.Length>0?a[0]:""));}catch {}}
+void I(int o){try{if(C<G.Count){
+F.LoadAsync((G=Directory.GetFiles(D).ToList())[B=((G.Count+B+o)%G.Count)]);
+this.Text=Path.GetFileName(G[B])+" — kasthack's Fast Photo Viewer";
+}C=0;}catch{C++;I(o==0?1:o);}GC.Collect();}
+void J(object _,MouseEventArgs e){
+U=((int)this.WindowState==2);
+FormBorderStyle=(FormBorderStyle)(U?4:0);
+WindowState=(FormWindowState)(U?0:2);
+BackColor=U?Color.White:Color.Black;}
+Func<string,string,int,int,int> K=(a,b,c,d)=>(int)MessageBox.Show(a,b,(MessageBoxButtons)c,(MessageBoxIcon)d);
+fpv(string a) {try{
+Z j=()=>K("FPV by kasthack v 0.8.1.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next photo;\r\nA/W/^/</Num8/Num4 - previous photo;\r\nHome/H - first pic in folder\r\nEnd/E - last pic\r\nF11/Alt+Enter - fullscreen;\r\nEsc - exit fullscreen;\r\nEsc-Esc/Q - exit FPV;\r\nF1/?- show this message.","FPV:Help",0,64),k=()=>{if(K("Do U really want to delete "+G[B]+"?","Deleting",4,32)==6)try{File.Delete(G[B]);I(0);}catch{}},g=()=>A=true,h=()=>I(1),i=()=>I(-1),l=()=>I((B=0)-1),m=()=>I(B=0);
+H=new Dictionary<int,Z>{{68,h},{83,h},{40,h},{39,h},{98,h},{102,h},{32,h},{65,i},{87,i},{38,i},{37,i},{104,i},{100,i},{36,m},{72,m},{35,l},{69,l},{112,j},{191,j},{46,k},{81,Application.Exit},{82,()=>I(E.Next())},{27,()=>H[(int)this.WindowState==2?122:81]()},{122,()=>H[-1]()},{13,()=>{if(!A)I(1);else H[-1]();}},{-1,()=>J(null,null)},{262144,g},{18,g}};
+Controls.Add(F=new PictureBox{Dock=(DockStyle)5,SizeMode=(PictureBoxSizeMode)4,BorderStyle=0});
+F.MouseDoubleClick+=J;
+KeyUp+=(_,e)=>{T=(int)e.KeyCode;if(T==65||T==18)A=false;};
+KeyDown+=(c,b)=>{if(H.TryGetValue((int)b.KeyCode,out i))i();};
+MouseWheel+=(_,e)=>I(e.Delta>0?-1:1);
 ClientSize=new Size(320,220);
-L=Directory.GetFiles(D=(a=Path.GetDirectoryName(a))==""?".":a).ToList();
-}catch {p(null,new KeyEventArgs(Keys.F1));this.Dispose();}
-I=L.IndexOf(a);r(0);}}
+G=Directory.GetFiles(D=(a=Path.GetDirectoryName(a))==""?".":a).ToList();}
+catch{H[111]();Dispose();}
+B=G.IndexOf(a);I(0);}}

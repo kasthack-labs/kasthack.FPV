@@ -17,7 +17,7 @@ Z j=()=>K("FPV by kasthack v 0.8.1.\r\nKeys:\r\nD/S/v/>/Num6/Num2/Space - next p
 H=new Dictionary<int,Z>{{68,h},{83,h},{40,h},{39,h},{98,h},{102,h},{32,h},{65,i},{87,i},{38,i},{37,i},{104,i},{100,i},{36,m},{72,m},{35,l},{69,l},{112,j},{191,j},{46,k},{81,Application.Exit},{82,()=>I(E.Next())},{27,()=>H[(int)this.WindowState==2?122:81]()},{122,()=>H[-1]()},{13,()=>{if(!A)I(1);else H[-1]();}},{-1,()=>J(null,null)},{262144,g},{18,g}};
 Controls.Add(F=new PictureBox{Dock=(DockStyle)5,SizeMode=(PictureBoxSizeMode)4,BorderStyle=0});
 F.MouseDoubleClick+=J;
-KeyUp+=(_,e)=>{T=(int)e.KeyCode;if(T==65||T==18)A=false;};
+KeyUp+=(_,e)=>A&=!((T=(int)e.KeyCode)==65||T==18);
 KeyDown+=(c,b)=>{if(H.TryGetValue((int)b.KeyCode,out i))i();};
 MouseWheel+=(_,e)=>I(e.Delta>0?-1:1);
 ClientSize=new Size(320,220);
